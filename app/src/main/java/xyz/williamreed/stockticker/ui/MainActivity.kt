@@ -1,7 +1,8 @@
-package xyz.williamreed.stockticker
+package xyz.williamreed.stockticker.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import xyz.williamreed.stockticker.R
 
 class MainActivity : AppCompatActivity() {
 

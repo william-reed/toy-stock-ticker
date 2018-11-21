@@ -11,7 +11,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner  "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -22,9 +22,13 @@ android {
 }
 
 dependencies {
-    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion" // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion"
+    // ViewModel and LiveData
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
     implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
+    implementation "androidx.fragment:fragment:$rootProject.fragmentVersion"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerViewVersion"
+    implementation "androidx.cardview:cardview:$rootProject.cardViewVersion"
 
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rxKotlinVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxAndroidVersion"
