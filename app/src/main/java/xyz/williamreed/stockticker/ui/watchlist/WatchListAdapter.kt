@@ -10,18 +10,20 @@ import xyz.williamreed.stockticker.R
 import xyz.williamreed.stockticker.data.models.Quote
 
 // TODO: better to take in LiveData, Observable, or List here?
-class WatchListAdapter(private val data: List<Quote>) :
-    RecyclerView.Adapter<WatchListAdapter.WatchListViewHolder>() {
+class WatchListAdapter(private val data: List<Quote>) : RecyclerView.Adapter<WatchListAdapter.WatchListViewHolder>() {
+
     class WatchListViewHolder(private val watchListCardView: CardView) : RecyclerView.ViewHolder(watchListCardView) {
+        // TODO: use android kotlin extensions for getting views directly
         val symbol: TextView = watchListCardView.findViewById(R.id.symbol)
         val companyName: TextView = watchListCardView.findViewById(R.id.companyName)
         val primaryExchange: TextView = watchListCardView.findViewById(R.id.primaryExchange)
         val latestPrice: TextView = watchListCardView.findViewById(R.id.latestPrice)
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WatchListViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_cardview_watch, parent, false) as CardView
+        val view = LayoutInflater
+            .from(parent.context)
+            .inflate(R.layout.item_cardview_watch, parent, false) as CardView
         return WatchListViewHolder(view)
     }
 

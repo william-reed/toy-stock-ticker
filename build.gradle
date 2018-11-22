@@ -6,6 +6,8 @@ ext {
     recyclerViewVersion = "1.0.0"
     fragmentVersion = "1.0.0"
     cardViewVersion = "1.0.0"
+    reactiveStreamsVersion = "2.0.0"
+    designVersion = "1.0.0"
 
     rxKotlinVersion = "2.2.0"
     rxAndroidVersion = "2.1.0"
