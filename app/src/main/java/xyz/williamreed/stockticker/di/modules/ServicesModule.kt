@@ -1,4 +1,4 @@
-package xyz.williamreed.stockticker.di
+package xyz.williamreed.stockticker.di.modules
 
 import dagger.Module
 import dagger.Provides

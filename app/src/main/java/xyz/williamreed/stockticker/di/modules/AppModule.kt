@@ -1,4 +1,4 @@
-package xyz.williamreed.stockticker.di
+package xyz.williamreed.stockticker.di.modules
 
 import android.app.Application
 import android.content.Context
