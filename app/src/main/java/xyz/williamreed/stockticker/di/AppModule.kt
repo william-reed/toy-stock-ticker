@@ -1,12 +1,13 @@
 package xyz.williamreed.stockticker.di
 
 import android.app.Application
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class AppModule(private val app: Application) {
+class AppModule {
     @[Provides Singleton]
-    fun provideApplication() = app
+    fun provideContext(application: Application): Context = application.applicationContext
 }

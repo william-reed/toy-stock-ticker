@@ -11,9 +11,9 @@ import xyz.williamreed.stockticker.data.models.Quote
  */
 interface StockService {
 
-    @GET("/stock/{symbol}/price")
+    @GET("stock/{symbol}/price")
     fun price(@Path("symbol") symbol: String): Single<Price>
 
-    @GET("/stock/{symbol}/quote")
+    @GET("stock/{symbol}/quote")
     fun quote(@Path("symbol") symbol: String): Single<Quote>
 }

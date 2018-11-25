@@ -12,13 +12,15 @@ import javax.inject.Singleton
 class ServicesModule() {
 
     @[Provides Singleton]
-    fun providesRetrofit() = Retrofit.Builder()
-        .baseUrl("https://api.iextrading.com/1.0")
-        .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .build()
+    fun providesRetrofit(): Retrofit =
+        Retrofit.Builder()
+            .baseUrl("https://api.iextrading.com/1.0/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
 
     @[Provides Singleton]
-    fun providesStockService(retrofit: Retrofit) = retrofit.create(StockService::class.java)
+    fun providesStockService(retrofit: Retrofit): StockService =
+        retrofit.create(StockService::class.java)
 
 }

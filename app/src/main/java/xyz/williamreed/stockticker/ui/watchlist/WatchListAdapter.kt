@@ -10,7 +10,8 @@ import xyz.williamreed.stockticker.R
 import xyz.williamreed.stockticker.data.models.Quote
 
 // TODO: better to take in LiveData, Observable, or List here?
-class WatchListAdapter(private val data: List<Quote>) : RecyclerView.Adapter<WatchListAdapter.WatchListViewHolder>() {
+class WatchListAdapter(private var data: MutableList<Quote>) :
+    RecyclerView.Adapter<WatchListAdapter.WatchListViewHolder>() {
 
     class WatchListViewHolder(private val watchListCardView: CardView) : RecyclerView.ViewHolder(watchListCardView) {
         // TODO: use android kotlin extensions for getting views directly
@@ -37,7 +38,7 @@ class WatchListAdapter(private val data: List<Quote>) : RecyclerView.Adapter<Wat
     }
 
     fun updateData(newData: List<Quote>) {
-        DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+        val diff = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
                 data[oldItemPosition].symbol == newData[newItemPosition].symbol
 
@@ -48,7 +49,12 @@ class WatchListAdapter(private val data: List<Quote>) : RecyclerView.Adapter<Wat
                 data[oldItemPosition] == newData[newItemPosition]
 
             // TODO: might want to override getChangePayload for some animation changes
-        }).dispatchUpdatesTo(this)
+        })
+
+        data.clear()
+        data.addAll(newData)
+
+        diff.dispatchUpdatesTo(this)
     }
 
 }

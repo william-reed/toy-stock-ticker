@@ -1,5 +1,6 @@
 package xyz.williamreed.stockticker.ui.watchlist
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,20 +13,16 @@ import xyz.williamreed.stockticker.data.services.StockService
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class WatchListViewModel : ViewModel() {
+class WatchListViewModel @Inject constructor(private val stockService: StockService) : ViewModel() {
+
     private val quotes: MutableLiveData<List<Quote>> by lazy {
-
-        MutableLiveData<List<Quote>>().also {
-            initQuotes()
-        }
+        MutableLiveData<List<Quote>>().also { initQuotes() }
     }
+    // one of the problems with this is getting old data if you reopen the view since this behaves
+    // similar to a BehaviorSubject.
     private val error: MutableLiveData<String> = MutableLiveData()
-
-    @Inject
-    lateinit var stockService: StockService
-    lateinit var stocksDisposable: Disposable
-
-    val tickers = listOf("AAPL", "GOOG", "FB")
+    private lateinit var stocksDisposable: Disposable
+    private val tickers = listOf("AAPL", "GOOG", "FB")
 
     private fun initQuotes() {
         stocksDisposable = Observable.interval(5, TimeUnit.SECONDS)
@@ -35,7 +32,11 @@ class WatchListViewModel : ViewModel() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .buffer(tickers.size)
-            .subscribe({ quotes.value = it }, { error.value = "Error getting quotes." })
+            .subscribe({ quotes.value = it }, {
+                // TODO: might be a problem having an android import in non android class
+                Log.e("Stock Subscription", it.message)
+                error.value = "Error getting quotes."
+            })
     }
 
     override fun onCleared() {
