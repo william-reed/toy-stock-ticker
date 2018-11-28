@@ -2,4 +2,8 @@
     <string name="app_name">Stock Ticker</string>
 
     <string name="separator">•</string>
+    <string name="stockPrice">$%1$s</string>
+
+    <string name="add_ticker">Add Ticker</string>
+    <string name="add_ticker_hint">AAPL</string>
 </resources>

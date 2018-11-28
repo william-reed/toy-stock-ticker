@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import xyz.williamreed.stockticker.R
 import xyz.williamreed.stockticker.StockTickerApplication
@@ -20,7 +21,7 @@ import javax.inject.Inject
 
 
 class WatchListFragment : Fragment() {
-    //    private var listener: OnFragmentInteractionListener? = null
+    private lateinit var listener: OnFragmentInteractionListener
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: WatchListAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -33,13 +34,14 @@ class WatchListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_watch_list, container, false)
         setupLiveData(view, viewModelFactory)
         setupAdapter(view)
+        setupClickListeners(view)
         Log.i("Watch List Fragment", "fragment created")
         return view
     }
 
     private fun setupAdapter(view: View) {
         viewManager = LinearLayoutManager(context)
-        viewAdapter = WatchListAdapter(mutableListOf())
+        viewAdapter = WatchListAdapter(mutableListOf(), resources)
 
         // TODO: convert to kotlin extensions
         recyclerView = view.findViewById<RecyclerView>(R.id.watchListRecyclerView).apply {
@@ -59,24 +61,23 @@ class WatchListFragment : Fragment() {
         })
     }
 
+    private fun setupClickListeners(view: View) {
+        view.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { listener.onStockAddButtonClicked() }
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
-//        if (context is OnFragmentInteractionListener) {
-//            listener = context
-//        } else {
-//            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-//        }
+        if (context is OnFragmentInteractionListener) {
+            listener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+        }
     }
 
     // TODO: long click on RV item should delete it from the list
-
-    override fun onDetach() {
-        super.onDetach()
-//        listener = null
-    }
-
     interface OnFragmentInteractionListener {
         fun onStockDeleted(ticker: String)
+        fun onStockAddButtonClicked()
     }
 
     companion object {

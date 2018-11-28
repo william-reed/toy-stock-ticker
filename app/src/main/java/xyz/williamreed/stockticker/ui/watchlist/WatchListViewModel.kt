@@ -9,11 +9,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import xyz.williamreed.stockticker.data.models.Quote
-import xyz.williamreed.stockticker.data.services.StockService
+import xyz.williamreed.stockticker.data.repositories.StockRepository
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class WatchListViewModel @Inject constructor(private val stockService: StockService) : ViewModel() {
+class WatchListViewModel @Inject constructor(private val stockRepository: StockRepository) : ViewModel() {
 
     private val quotes: MutableLiveData<List<Quote>> by lazy {
         MutableLiveData<List<Quote>>().also { initQuotes() }
@@ -25,10 +25,10 @@ class WatchListViewModel @Inject constructor(private val stockService: StockServ
     private val tickers = listOf("AAPL", "GOOG", "FB")
 
     private fun initQuotes() {
-        stocksDisposable = Observable.interval(5, TimeUnit.SECONDS)
+        stocksDisposable = Observable.interval(0,5, TimeUnit.SECONDS)
             .flatMap { Observable.just(tickers) }
             .flatMapIterable { tickers }
-            .map { stockService.quote(it).blockingGet() }
+            .map { stockRepository.quote(it).blockingGet() }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .buffer(tickers.size)

@@ -1,5 +1,6 @@
 package xyz.williamreed.stockticker.ui.watchlist
 
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -10,7 +11,10 @@ import xyz.williamreed.stockticker.R
 import xyz.williamreed.stockticker.data.models.Quote
 
 // TODO: better to take in LiveData, Observable, or List here?
-class WatchListAdapter(private var data: MutableList<Quote>) :
+class WatchListAdapter(
+    private val data: MutableList<Quote>,
+    private val resources: Resources
+) :
     RecyclerView.Adapter<WatchListAdapter.WatchListViewHolder>() {
 
     class WatchListViewHolder(private val watchListCardView: CardView) : RecyclerView.ViewHolder(watchListCardView) {
@@ -34,7 +38,7 @@ class WatchListAdapter(private var data: MutableList<Quote>) :
         holder.symbol.text = data[position].symbol
         holder.companyName.text = data[position].companyName
         holder.primaryExchange.text = data[position].primaryExchange
-        holder.latestPrice.text = data[position].latestPrice.toString()
+        holder.latestPrice.text = resources.getString(R.string.stockPrice, data[position].latestPrice.toString())
     }
 
     fun updateData(newData: List<Quote>) {
